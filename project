@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QahwaTea | Меню</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            background-color: #fff9f5;
+            margin: 0;
+            padding: 0;
+            color: #3e2723;
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        header img {
+            height: 80px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 10px 0;
+        }
+        nav button {
+            margin: 5px;
+            padding: 10px 20px;
+            background-color: #6f4e37;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        nav button:hover {
+            background-color: #5c3c2d;
+        }
+        .search {
+            display: flex;
+            justify-content: center;
+            margin: 15px;
+        }
+        .search input {
+            padding: 10px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+        .menu-section {
+            display: none;
+            padding: 20px;
+        }
+        .menu-section.active {
+            display: block;
+        }
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e5e5;
+        }
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        footer a {
+            text-decoration: none;
+            background-color: #6f4e37;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="QahwaTea" />
+        <h1>Меню QahwaTea</h1>
+    </header>
+
+    <div class="search">
+        <input type="text" id="search" placeholder="Поиск по меню...">
+    </div>
+
+    <nav id="tabs"></nav>
+    <div id="menu"></div>
+
+    <footer>
+        <a href="https://instagram.com/qahwatea_" target="_blank">Наш Instagram</a>
+    </footer>
+
+    <script>
+        const menuData = {
+            "Эспрессо": [
+                { name: "Эспрессо", price: "150₽" },
+                { name: "Американо", price: "150₽" },
+                { name: "Лунго", price: "150₽" }
+            ],
+            "Молочные напитки": [
+                { name: "Капучино 200мл", price: "200₽" },
+                { name: "Капучино 300мл", price: "240₽" },
+                { name: "Латте 200мл", price: "200₽" },
+                { name: "Латте 300мл", price: "240₽" },
+                { name: "Флет Уайт", price: "220₽" },
+                { name: "Раф Классик", price: "280₽" },
+                { name: "Раф Урбеч", price: "320₽" },
+                { name: "Раф Сироп", price: "270₽" }
+            ],
+            "Лимонады": [
+                { name: "Мохито Классик", price: "240₽" },
+                { name: "Мохито Клубника", price: "240₽" },
+                { name: "Голубая Лагуна", price: "240₽" },
+                { name: "Клубника Базилик", price: "300₽" },
+                { name: "Бамбл Апельсин", price: "320₽" },
+                { name: "Бамбл Гранат", price: "380₽" }
+            ],
+            "Коктейли": [
+                { name: "Клубничный", price: "250₽" },
+                { name: "Молочный", price: "200₽" },
+                { name: "Шоколадный", price: "280₽" },
+                { name: "Банановый", price: "250₽" },
+                { name: "Клубника Банан", price: "300₽" },
+                { name: "Банан Шоколад", price: "300₽" }
+            ],
+            "Смузи": [
+                { name: "Смузи Сникерс", price: "300₽" },
+                { name: "Финик Банан", price: "400₽" },
+                { name: "Avocado Royale", price: "350₽" },
+                { name: "Citrus Berry", price: "350₽" }
+            ],
+            "Чаи": [
+                { name: "Черный 800мл", price: "200₽" },
+                { name: "Черный 1600мл", price: "300₽" },
+                { name: "Зеленый 800мл", price: "200₽" },
+                { name: "Зеленый 1600мл", price: "300₽" },
+                { name: "Чабрец", price: "250₽" },
+                { name: "Имбирный", price: "250₽" },
+                { name: "Облепиха Апельсин", price: "400₽" },
+                { name: "Травяной", price: "250₽" },
+                { name: "Финиковый", price: "350₽" },
+                { name: "Облепиха", price: "350₽" }
+            ],
+            "Холодное кофе": [
+                { name: "Ice Coffee", price: "300₽" },
+                { name: "Ice Фьюри", price: "300₽" },
+                { name: "Ice Фьюри Урбеч", price: "340₽" },
+                { name: "Ice Latte Классик", price: "250₽" },
+                { name: "Эспрессо Тоник", price: "270₽" },
+                { name: "Эспрессо Тоник Гранат", price: "270₽" }
+            ],
+            "Фреши": [
+                { name: "Морковь Яблоко", price: "280₽" },
+                { name: "Щавелевый Фреш", price: "250₽" },
+                { name: "Щавель Апельсин", price: "300₽" },
+                { name: "Апельсин", price: "280₽" },
+                { name: "Яблоко", price: "280₽" },
+                { name: "Оранж Буст", price: "300₽" },
+                { name: "Апельсин Грейпфрут", price: "300₽" }
+            ]
+        };
+
+        const tabs = document.getElementById("tabs");
+        const menu = document.getElementById("menu");
+
+        Object.keys(menuData).forEach((category, index) => {
+            const button = document.createElement("button");
+            button.innerText = category;
+            button.onclick = () => showCategory(category);
+            if (index === 0) button.classList.add("active");
+            tabs.appendChild(button);
+
+            const section = document.createElement("div");
+            section.classList.add("menu-section");
+            if (index === 0) section.classList.add("active");
+            section.id = category;
+
+            menuData[category].forEach(item => {
+                const div = document.createElement("div");
+                div.classList.add("menu-item");
+                div.innerHTML = `<span>${item.name}</span><span>${item.price}</span>`;
+                section.appendChild(div);
+            });
+
+            menu.appendChild(section);
+        });
+
+        function showCategory(category) {
+            document.querySelectorAll(".menu-section").forEach(sec => sec.classList.remove("active"));
+            document.getElementById(category).classList.add("active");
+        }
+
+        document.getElementById("search").addEventListener("input", e => {
+            const searchValue = e.target.value.toLowerCase();
+            document.querySelectorAll(".menu-item").forEach(item => {
+                item.style.display = item.innerText.toLowerCase().includes(searchValue) ? "flex" : "none";
+            });
+        });
+    </script>
+</body>
+</html>
